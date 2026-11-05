@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10151d">
+<title>LUNA — твой цифровой друг</title>
+<style>
+:root {
+  --site-primary: #8d7bff;
+  --site-on-primary: #ffffff;
+  --site-secondary: #243344;
+  --site-on-secondary: #eef5ff;
+  --site-background: #10151d;
+  --site-on-background: #f2f4fa;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+#app { min-height: 100vh; min-height: 100dvh; width: 100%; border-radius: 0; overflow: hidden; background: light-dark(#f2f3fa, var(--site-background)); color: light-dark(#202437, var(--site-on-background)); padding-bottom: calc(82px + env(safe-area-inset-bottom)); }
+.shell { max-width: 760px; margin: 0 auto; padding: calc(18px * var(--site-spacing-scale)) calc(17px * var(--site-spacing-scale)) 24px; }
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:850; letter-spacing:-.04em; font-size:calc(21px * var(--site-heading-scale)); }
+.brand-mark { width:36px; height:36px; display:grid; place-items:center; border-radius:13px; background:var(--site-primary); color:white; box-shadow:0 7px 20px #8d7bff44; }
+.pill { border:1px solid light-dark(#e0e2ed,#293443); background:light-dark(#fff,#18212c); border-radius:999px; padding:8px 11px; color:light-dark(#62677a,#bdc9d9); font-size:12px; }
+.hero { position:relative; overflow:hidden; border-radius:calc(27px * var(--site-radius-scale)); padding:23px 20px 18px; background:linear-gradient(145deg,#252d47,#192c3b 58%,#1b3740); color:#f7f8ff; box-shadow:0 18px 45px #10151d22; }
+.hero:before,.hero:after { content:""; position:absolute; border-radius:50%; background:#a99aff; opacity:calc(.11 * var(--site-decoration-opacity)); pointer-events:none; }
+.hero:before { width:190px;height:190px;right:-70px;top:-95px; }
+.hero:after { width:110px;height:110px;right:35px;bottom:-76px;background:#8ce3d1; }
+.hero-head { display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:1; }
+.eyebrow { color:#b8c7dc; font-size:12px; letter-spacing:.09em; text-transform:uppercase; font-weight:700; }
+h1 { margin:6px 0 4px; font-size:calc(27px * var(--site-heading-scale)); line-height:1.08; letter-spacing:-.045em; }
+.sub { color:#c6d0df; font-size:13px; }
+.mood { border:1px solid #ffffff25; background:#ffffff12; border-radius:14px; padding:8px 10px; font-size:12px; }
+.stage { height:245px; display:flex; align-items:center; justify-content:center; position:relative; z-index:1; }
+.orbit { width:205px;height:205px;border-radius:50%;border:1px solid #ffffff19;display:grid;place-items:center;position:relative;background:radial-gradient(circle at 50% 64%,#6c80a533,transparent 64%); }
+.orbit:before { content:""; position:absolute; inset:13px; border:1px dashed #ffffff24; border-radius:50%; }
+.friend { width:150px;height:166px; position:relative; transform-origin:50% 90%; animation:breathe 3.5s ease-in-out infinite; filter:drop-shadow(0 14px 15px #070d184a); transition:transform .25s; }
+.friend .ear { position:absolute; top:4px;width:43px;height:53px;background:linear-gradient(145deg,#f5c9a4,#d9947c);border:3px solid #9c6e70;border-radius:65% 65% 20% 20%;z-index:0; }
+.friend .ear.left { left:19px; transform:rotate(-18deg); }.friend .ear.right { right:19px; transform:rotate(18deg); }
+.friend .head { position:absolute;top:20px;left:13px;width:124px;height:119px;border-radius:48% 48% 44% 44%;background:linear-gradient(145deg,#ffd9b7 5%,#f1b58f 70%,#d9917b);border:3px solid #a87572;z-index:1; }
+.friend .hair { position:absolute;top:15px;left:14px;width:122px;height:57px;border-radius:58% 48% 25% 20%;background:#473b52;z-index:2;clip-path:polygon(0 30%,12% 8%,27% 18%,42% 0,57% 17%,76% 4%,100% 24%,94% 78%,80% 57%,64% 70%,49% 48%,31% 72%,15% 58%,4% 88%); }
+.eye { position:absolute;top:70px;width:9px;height:13px;border-radius:50%;background:#393347;z-index:3;animation:blink 5s infinite; }.eye.left{left:48px}.eye.right{right:48px}
+.blush { position:absolute;top:91px;width:18px;height:8px;border-radius:50%;background:#e98e91;opacity:.48;z-index:3}.blush.left{left:27px}.blush.right{right:27px}
+.mouth { position:absolute;top:96px;left:56px;width:13px;height:7px;border-bottom:2px solid #92515a;border-radius:0 0 50% 50%;z-index:3; }
+.body { position:absolute;bottom:0;left:35px;width:80px;height:55px;border-radius:35px 35px 18px 18px;background:linear-gradient(130deg,#a5a0ff,#6d75cf);border:3px solid #7772b7; }
+.spark { position:absolute;font-size:19px;animation:float 3s ease-in-out infinite; }.s1{left:8px;top:40px}.s2{right:2px;top:85px;animation-delay:1s}.s3{right:24px;bottom:22px;animation-delay:1.7s}
+.speech { position:absolute;bottom:0;left:50%;transform:translateX(-50%);white-space:nowrap;background:#ffffffed;color:#31364c;border-radius:15px;padding:9px 13px;font-size:12px;font-weight:650;box-shadow:0 5px 20px #050a1425;z-index:4; }
+@keyframes breathe{0%,100%{transform:translateY(1px) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
+@keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.12)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-9px) rotate(8deg)}}
+.stats { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative;z-index:1; }
+.stat { background:#ffffff10;border:1px solid #ffffff16;border-radius:15px;padding:10px 8px; }
+.stat b {display:block;font-size:16px}.stat span{font-size:10px;color:#c3cede}
+.quick { display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:17px 0 21px; }
+.quick button { border:1px solid light-dark(#e5e6ef,#273341);background:light-dark(#fff,#18212c);color:inherit;border-radius:17px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;font-weight:650;box-shadow:0 5px 16px #18243a08; }
+.quick .ico { width:35px;height:35px;border-radius:12px;display:grid;place-items:center;background:light-dark(#f0efff,#292843);font-size:18px; }
+.section-title { display:flex;align-items:center;justify-content:space-between;margin:20px 1px 11px; }
+.section-title h2 {font-size:17px;margin:0;letter-spacing:-.03em}.muted{font-size:12px;color:light-dark(#85899a,#91a0b3)}
+.card { background:light-dark(#fff,#18212c);border:1px solid light-dark(#e7e8f0,#283442);border-radius:20px;padding:15px;box-shadow:0 8px 22px #19233a08; }
+.day-card {display:flex;align-items:center;gap:12px}.day-icon{width:43px;height:43px;border-radius:14px;background:#e8f7f1;display:grid;place-items:center;font-size:21px}.day-card b{font-size:13px}.day-card p{margin:3px 0 0;color:light-dark(#777e90,#9aa8b8);font-size:11px;line-height:1.4}.progress{height:6px;border-radius:10px;background:light-dark(#ececf4,#2b3542);margin-top:10px;overflow:hidden}.progress i{display:block;height:100%;width:35%;background:linear-gradient(90deg,#8d7bff,#67d5bd);border-radius:10px}
+.quest-list{display:grid;gap:9px}.quest{display:flex;align-items:center;gap:11px}.quest-icon{width:38px;height:38px;border-radius:13px;background:light-dark(#f2f0ff,#292843);display:grid;place-items:center;font-size:18px}.quest-copy{flex:1}.quest-copy b{font-size:12px}.quest-copy small{display:block;color:light-dark(#8a8ea0,#91a0b3);font-size:10px;margin-top:3px}.check{width:25px;height:25px;border-radius:50%;border:1.5px solid #a8a1ee;background:transparent;color:#8d7bff;display:grid;place-items:center}.check.done{background:#8d7bff;color:#fff}
+.panel {display:none;animation:appear .2s ease}.panel.active{display:block}@keyframes appear{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}
+.bottomnav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:light-dark(#ffffffed,#121a24ed);backdrop-filter:blur(18px);border-top:1px solid light-dark(#e5e6ef,#293443);padding:9px 10px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:4px;}
+.bottomnav button{flex:1;max-width:125px;border:0;background:transparent;color:light-dark(#8b8fa0,#8795a7);display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px 2px;font-size:10px;font-weight:650}.bottomnav button span{font-size:19px}.bottomnav button.active{color:var(--site-primary)}
+.page-head{margin:6px 0 18px}.page-head h1{font-size:27px}.page-head p{font-size:13px;color:light-dark(#7e8395,#9ba8b8);margin:7px 0 0}
+.chatbox{height:54vh;min-height:340px;display:flex;flex-direction:column;gap:12px}.messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:3px}.msg{max-width:84%;padding:11px 13px;border-radius:16px;font-size:13px;line-height:1.45;background:light-dark(#f0efff,#292843);align-self:flex-start}.msg.me{align-self:flex-end;background:var(--site-primary);color:white;border-bottom-right-radius:5px}.msg.friendmsg{border-bottom-left-radius:5px}.sendrow{display:flex;gap:8px}.sendrow input,.note-input{min-width:0;flex:1;border:1px solid light-dark(#e1e3ed,#334050);border-radius:14px;background:light-dark(#fff,#111a24);color:inherit;padding:12px;font-size:13px;outline:none}.sendrow button,.primary{border:0;border-radius:14px;background:var(--site-primary);color:#fff;padding:0 16px;font-weight:700}
+.note-input{width:100%;min-height:110px;resize:vertical;margin:12px 0}.note-row{display:flex;gap:9px;align-items:center}.note-row button{padding:11px 14px}.note{padding:12px 0;border-bottom:1px solid light-dark(#ececf2,#2b3542);font-size:13px}.note small{display:block;color:light-dark(#9296a6,#8c9bad);font-size:10px;margin-top:5px}
+.room-scene{height:270px;border-radius:22px;position:relative;overflow:hidden;background:linear-gradient(#9ebbd0 0 55%,#c4b1a0 55%);border:1px solid #ffffff22}.window{position:absolute;right:20px;top:20px;width:88px;height:95px;border:7px solid #f3e8d9;border-radius:9px;background:linear-gradient(#86c7e6 0 55%,#9acb9e 55%)}.rug{position:absolute;bottom:12px;left:18%;width:64%;height:70px;border-radius:50%;background:#8b7bd0}.sofa{position:absolute;bottom:55px;left:50%;transform:translateX(-50%);width:155px;height:78px;border-radius:20px 20px 10px 10px;background:#7e83c9;border:5px solid #6269a8}.sofa:before{content:"";position:absolute;left:-10px;right:-10px;bottom:-12px;height:18px;border-radius:8px;background:#555d99}.room-friend{position:absolute;bottom:75px;left:calc(50% - 28px);font-size:48px;z-index:2}.plant{position:absolute;bottom:35px;left:18px;font-size:45px}.lamp{position:absolute;bottom:80px;right:28px;font-size:42px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.tile{min-height:112px;border-radius:18px;padding:14px;background:light-dark(#fff,#18212c);border:1px solid light-dark(#e7e8f0,#283442)}.tile .big{font-size:25px}.tile b{display:block;font-size:13px;margin-top:7px}.tile small{font-size:10px;color:light-dark(#85899a,#91a0b3)}
+.choice{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.choice button{border:1px solid light-dark(#e1e3ed,#344252);background:light-dark(#fff,#18212c);color:inherit;border-radius:13px;padding:9px 12px;font-size:12px}.choice button.selected{border-color:var(--site-primary);background:light-dark(#f0edff,#2b2948);color:var(--site-primary)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#20283a;color:white;padding:11px 15px;border-radius:13px;font-size:12px;transition:.2s;z-index:30}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:650px){.shell{padding-top:25px}.hero{padding:28px 28px 20px}.stage{height:270px}.quick{gap:12px}.quick button{padding:15px}}
+</style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div id="app">
+  <main class="shell">
+    <header class="topbar"><div class="brand"><div class="brand-mark">✦</div>LUNA</div><div class="pill" id="dayPill">☀️ Хороший день</div></header>
+
+    <section class="panel active" id="home">
+      <div class="hero">
+        <div class="hero-head"><div><div class="eyebrow">ТВОЙ МАЛЕНЬКИЙ МИР</div><h1>Привет! Я Luna ✨</h1><div class="sub">Рада, что ты заглянул</div></div><div class="mood" id="mood">😊 В настроении</div></div>
+        <div class="stage"><div class="orbit"><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">♡</span><div class="friend" id="friend"><div class="ear left"></div><div class="ear right"></div><div class="head"></div><div class="hair"></div><div class="eye left"></div><div class="eye right"></div><div class="blush left"></div><div class="blush right"></div><div class="mouth"></div><div class="body"></div></div><div class="speech" id="speech">Расскажешь, как ты?</div></div></div>
+        <div class="stats"><div class="stat"><b id="bond">♡ 12</b><span>Наша связь</span></div><div class="stat"><b>☁️ Спокойно</b><span>Моё настроение</span></div><div class="stat"><b id="memoryCount">✦ 0</b><span>Воспоминаний</span></div></div>
+      </div>
+      <div class="quick"><button data-go="chat"><span class="ico">💬</span>Поговорить</button><button data-go="notes"><span class="ico">📝</span>Заметки</button><button data-go="games"><span class="ico">🎮</span>Играть</button><button data-go="room"><span class="ico">🪴</span>Комната</button></div>
+      <div class="section-title"><h2>Небольшой план на сегодня</h2><span class="muted">без спешки</span></div>
+      <div class="card day-card"><div class="day-icon">🌱</div><div style="flex:1"><b>Растём в своём темпе</b><p>Можно выполнить задание, а можно просто поболтать. Я не обижусь, если ты занят.</p><div class="progress"><i id="dayProgress"></i></div></div></div>
+      <div class="section-title"><h2>Наши маленькие дела</h2><span class="muted" id="questProgress">0 из 3</span></div>
+      <div class="card quest-list" id="quests"><div class="quest"><div class="quest-icon">👋</div><div class="quest-copy"><b>Поздороваться</b><small>Просто проведать друг друга</small></div><button class="check" data-quest="0">✓</button></div><div class="quest"><div class="quest-icon">💭</div><div class="quest-copy"><b>Поделиться мыслью</b><small>Сохрани идею в заметки</small></div><button class="check" data-quest="1">✓</button></div><div class="quest"><div class="quest-icon">🎲</div><div class="quest-copy"><b>Немного поиграть</b><small>Одна короткая игра</small></div><button class="check" data-quest="2">✓</button></div></div>
+    </section>
+
+    <section class="panel" id="chat"><div class="page-head"><div class="eyebrow">ВАШ ДИАЛОГ</div><h1>Поболтаем?</h1><p>Luna уже здесь. Напиши что-нибудь или выбери тему.</p></div><div class="card chatbox"><div class="messages" id="messages"><div class="msg friendmsg">Привет! Я Luna. Пока я отвечаю простыми встроенными репликами, а не настоящим AI, но мне уже интересно: что сегодня было самым приятным? 🌿</div></div><div class="sendrow"><input id="chatInput" placeholder="Напиши Luna..." maxlength="500"><button id="sendChat">Отправить</button></div></div><div class="choice"><button class="chatTopic">🌌 Космос</button><button class="chatTopic">🎵 Музыка</button><button class="chatTopic">💡 Идеи</button></div></section>
+
+    <section class="panel" id="notes"><div class="page-head"><div class="eyebrow">ТВОЁ ПРОСТРАНСТВО</div><h1>Заметки</h1><p>Мысли, планы и маленькие открытия. Luna сможет учитывать их в будущих разговорах.</p></div><div class="card"><b style="font-size:13px">Записать мысль</b><textarea class="note-input" id="noteInput" placeholder="Что хочется сохранить?"></textarea><div style="display:flex;justify-content:space-between;align-items:center"><span class="muted">Личные заметки на этом устройстве</span><button class="primary" id="saveNote" style="padding:11px 15px">Сохранить ✦</button></div></div><div class="section-title"><h2>Мои записи</h2><span class="muted" id="notesCount">0 записей</span></div><div class="card" id="noteList"><div class="muted">Здесь пока тихо. Добавь первую заметку.</div></div></section>
+
+    <section class="panel" id="games"><div class="page-head"><div class="eyebrow">ПАУЗА ДЛЯ РАДОСТИ</div><h1>Игровая</h1><p>Короткие занятия без давления и обязательных серий.</p></div><div class="tiles"><button class="tile" id="memoryGame"><span class="big">🧠</span><b>Проверка памяти</b><small>Запомни последовательность</small></button><button class="tile" id="fortuneGame"><span class="big">🔮</span><b>Случайный вопрос</b><small>Новая тема для разговора</small></button><button class="tile" id="tapGame"><span class="big">✨</span><b>Поймай искру</b><small>Нажми и собери сияние</small></button><button class="tile" id="dreamGame"><span class="big">☁️</span><b>Мечтатель</b><small>Придумай мир вместе</small></button></div><div class="card" style="margin-top:12px" id="gameResult"><b style="font-size:13px">Выбери игру</b><p class="muted">Здесь будут появляться задания и результаты.</p></div></section>
+
+    <section class="panel" id="room"><div class="page-head"><div class="eyebrow">МЕСТО, ГДЕ МЫ ЖИВЁМ</div><h1>Комната Luna</h1><p>Постепенно обустроим её так, как нам нравится.</p></div><div class="room-scene"><div class="window"></div><div class="rug"></div><div class="sofa"></div><div class="room-friend">🌙</div><div class="plant">🪴</div><div class="lamp">💡</div></div><div class="section-title"><h2>Немного изменить?</h2><span class="muted">настройка комнаты</span></div><div class="choice" id="roomChoices"><button class="selected" data-room="calm">🌿 Уютная</button><button data-room="night">🌙 Ночная</button><button data-room="sunny">☀️ Солнечная</button></div><div class="card"><b style="font-size:13px">Что появится дальше</b><p class="muted" style="line-height:1.6">Мебель, которую можно переставлять · предметы с анимациями · питомцы-компаньоны · новые комнаты и целый дом.</p></div></section>
+
+    <section class="panel" id="profile"><div class="page-head"><div class="eyebrow">ЗНАКОМСТВО</div><h1>Luna — это только начало</h1><p>В будущем ты сможешь создать совершенно другого друга: человека, мультяшного героя, дракона, пиксельное существо или собственный необычный образ.</p></div><div class="card"><div style="display:flex;align-items:center;gap:13px"><div style="font-size:38px">🌙</div><div><b>Мой персонаж — Luna</b><div class="muted">Демонстрационный образ · версия 0.2</div></div></div><div class="section-title"><h2>Настроение и стиль</h2></div><div class="choice" id="styleChoices"><button class="selected" data-style="gentle">🌿 Мягкий</button><button data-style="curious">🔭 Любопытный</button><button data-style="playful">🎈 Игривый</button></div><p class="muted" id="styleDescription">Спокойный, заботливый и внимательный. Характер будет развиваться вместе с вами.</p></div><div class="section-title"><h2>Память и приватность</h2></div><div class="card"><b style="font-size:13px">Твои данные под контролем</b><p class="muted" style="line-height:1.6">В этой пробной версии заметки и настройки сохраняются локально в браузере этого устройства. Это не облачная синхронизация и пока не настоящая долговременная AI-память.</p><button id="clearData" style="border:1px solid #d98b8b;color:#d36d76;background:transparent;border-radius:12px;padding:10px 12px;font-size:12px">Очистить локальные данные</button></div></section>
+  </main>
+  <nav class="bottomnav"><button class="active" data-tab="home"><span>⌂</span>Дом</button><button data-tab="chat"><span>♡</span>Общение</button><button data-tab="games"><span>✧</span>Игры</button><button data-tab="room"><span>▧</span>Мир</button><button data-tab="profile"><span>☻</span>Я и Luna</button></nav>
+  <div class="toast" id="toast"></div>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const state = {notes:[], bond:12, quests:[false,false,false], style:'gentle', room:'calm', taps:0};
+try { const saved=JSON.parse(localStorage.getItem('ourFriendV1')||'null'); if(saved){Object.assign(state,saved); state.notes=Array.isArray(saved.notes)?saved.notes:[]; state.quests=Array.isArray(saved.quests)?saved.quests:[false,false,false];} } catch(e) {}
+function persist(){try{localStorage.setItem('ourFriendV1',JSON.stringify(state));}catch(e){}}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2100)}
+function go(tab){$$('.panel').forEach(p=>p.classList.toggle('active',p.id===tab));$$('.bottomnav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));window.scrollTo({top:0,behavior:'smooth'});}
+$$('[data-tab]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.tab)));
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+function update(){ $('#bond').textContent='♡ '+state.bond;$('#memoryCount').textContent='✦ '+state.notes.length;$('#notesCount').textContent=state.notes.length+' записей';$('#questProgress').textContent=state.quests.filter(Boolean).length+' из 3';$('#dayProgress').style.width=(state.quests.filter(Boolean).length/3*100)+'%';$$('[data-quest]').forEach(b=>{const done=state.quests[+b.dataset.quest];b.classList.toggle('done',done);b.textContent=done?'✓':'+'});renderNotes();}
+function renderNotes(){const list=$('#noteList');if(!state.notes.length){list.innerHTML='<div class="muted">Здесь пока тихо. Добавь первую заметку.</div>';return;}list.innerHTML=state.notes.map((n,i)=>`<div class="note">${escapeHtml(n.text)}<small>${escapeHtml(n.date)} <button data-delete="${i}" style="float:right;border:0;background:none;color:#d87982">Удалить</button></small></div>`).join('');$$('[data-delete]').forEach(b=>b.onclick=()=>{state.notes.splice(+b.dataset.delete,1);persist();update();toast('Заметка удалена')});}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$$('[data-quest]').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.quest;state.quests[i]=!state.quests[i];if(state.quests[i]){state.bond++;toast('Маленький шаг вместе ✨')}persist();update()}));
+$('#saveNote').onclick=()=>{const text=$('#noteInput').value.trim();if(!text){toast('Сначала напиши мысль');return;}state.notes.unshift({text,date:new Date().toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})});state.bond++;$('#noteInput').value='';persist();update();toast('Сохранил! Это важно 🌱')};
+const replies=['О, расскажи подробнее! Мне нравится узнавать, что тебе интересно.','Я запомню эту мысль в рамках нашего разговора. А что в ней для тебя самое важное?','Звучит интересно. Давай исследуем это вместе!','Хм, а если посмотреть на это с другой стороны?','Спасибо, что поделился. Мне нравится проводить с тобой время.'];
+function sendMessage(text){if(!text.trim())return;const box=$('#messages');const mine=document.createElement('div');mine.className='msg me';mine.textContent=text;box.appendChild(mine);$('#chatInput').value='';state.bond++;persist();update();setTimeout(()=>{const r=document.createElement('div');r.className='msg friendmsg';r.textContent=replies[Math.floor(Math.random()*replies.length)];box.appendChild(r);box.scrollTop=box.scrollHeight;},550);box.scrollTop=box.scrollHeight;}
+$('#sendChat').onclick=()=>sendMessage($('#chatInput').value);$('#chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage(e.target.value)});$$('.chatTopic').forEach(b=>b.onclick=()=>sendMessage('Мне хочется поговорить про '+b.textContent.replace(/^\S+\s*/,'')));
+const questions=['Если бы можно было на день отправиться в любую точку Вселенной, куда бы ты полетел?','Какую способность ты бы выбрал для своего персонажа?','Как выглядит идеальный уютный вечер?','Какую необычную планету нам стоит придумать?','Какую вещь ты давно хотел попробовать?'];
+function result(title,body){$('#gameResult').innerHTML=`<b style="font-size:13px">${title}</b><p style="font-size:13px;line-height:1.5;margin-bottom:0">${body}</p>`}
+$('#fortuneGame').onclick=()=>result('Вопрос дня ✨',questions[Math.floor(Math.random()*questions.length)]);
+$('#memoryGame').onclick=()=>{const seq=['🌙','⭐','🪐'];result('Запомни последовательность',`${seq.join('　')}<br><br><button class="primary" id="reveal" style="padding:9px 12px">Проверить себя</button>`);$('#reveal').onclick=()=>result('Память проверена!',`Правильный порядок: ${seq.join(' → ')}. Отличная тренировка!`)};
+$('#tapGame').onclick=()=>{state.taps++;result('Искры пойманы ✨',`Ты собрал ${state.taps} ${state.taps===1?'искру':'искры'}! Ещё немного сияния в нашей комнате.`);state.bond++;persist();update()};
+$('#dreamGame').onclick=()=>result('Давай помечтаем ☁️','Представь остров, где деревья светятся ночью, а реки текут вверх. Как назовём это место?');
+$$('[data-room]').forEach(b=>b.onclick=()=>{$$('[data-room]').forEach(x=>x.classList.toggle('selected',x===b));state.room=b.dataset.room;const scene=$('.room-scene');scene.style.background=b.dataset.room==='night'?'linear-gradient(#28334f 0 55%,#665d80 55%)':b.dataset.room==='sunny'?'linear-gradient(#f2c77f 0 55%,#d7b68d 55%)':'linear-gradient(#9ebbd0 0 55%,#c4b1a0 55%)';persist();toast('Комната стала немного другой')});
+const styles={gentle:'Спокойный, заботливый и внимательный. Характер будет развиваться вместе с вами.',curious:'Любознательный исследователь: задаёт вопросы, любит открытия и необычные факты.',playful:'Игривый и энергичный: любит шутки, мини-игры и маленькие приключения.'};
+$$('[data-style]').forEach(b=>b.onclick=()=>{$$('[data-style]').forEach(x=>x.classList.toggle('selected',x===b));state.style=b.dataset.style;$('#styleDescription').textContent=styles[state.style];persist();toast('Стиль общения обновлён')});
+$('#clearData').onclick=()=>{if(confirm('Удалить заметки и настройки, сохранённые в этом браузере?')){localStorage.removeItem('ourFriendV1');state.notes=[];state.bond=12;state.quests=[false,false,false];state.style='gentle';state.taps=0;persist();update();toast('Локальные данные очищены')}};
+const greetings=['Расскажешь, как ты?','Я тут придумал кое-что!','Какой у тебя сегодня настрой?','Может, помечтаем?'];let gi=0;setInterval(()=>{if($('#home').classList.contains('active')){$('#speech').textContent=greetings[++gi%greetings.length]}},9000);
+update();if(state.style){$$('[data-style]').forEach(x=>x.classList.toggle('selected',x.dataset.style===state.style));$('#styleDescription').textContent=styles[state.style]||styles.gentle;}
+</script>
+<script>
+// Telegram Mini App compatibility. This does not publish or host the app.
+try {
+  if (window.Telegram && window.Telegram.WebApp) {
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    if (tg.setHeaderColor) tg.setHeaderColor('#10151d');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#10151d');
+  }
+} catch (e) { console.info('Telegram WebApp bridge is unavailable in this browser.'); }
+
+// More useful, genuinely interactive mini-games.
+$('#memoryGame').onclick = () => {
+  const sequence = ['🌙', '⭐', '🪐', '☄️'];
+  result('Запомни порядок', `<div style="font-size:25px;letter-spacing:5px;margin:12px 0">${sequence.join(' ')}</div><p class="muted">Посмотри 3 секунды, затем введи символы по порядку.</p><button class="primary" id="startMemory" style="padding:9px 12px">Начать</button>`);
+  $('#startMemory').onclick = () => {
+    result('Твоя очередь', `<input id="memoryAnswer" class="note-input" style="min-height:0" placeholder="Например: 🌙 ⭐ 🪐 ☄️"><button class="primary" id="checkMemory" style="padding:9px 12px">Проверить</button>`);
+    $('#checkMemory').onclick = () => {
+      const answer = $('#memoryAnswer').value.replace(/\s/g, '');
+      const correct = sequence.join('');
+      result(answer === correct ? 'Идеально! ✨' : 'Хорошая попытка 🌱', answer === correct ? 'Ты запомнил всю последовательность!' : `Правильный порядок: ${sequence.join(' ')}`);
+      if (answer === correct) { state.bond++; persist(); update(); }
+    };
+  };
+};
+$('#tapGame').onclick = () => {
+  state.taps = Number(state.taps || 0);
+  result('Поймай искры ✨', `<p>Нажми на звёздочку 10 раз. Собрано: <b id="sparkCount">0</b>/10</p><button class="primary" id="sparkButton" style="font-size:26px;padding:12px 20px">✦</button>`);
+  let count = 0;
+  $('#sparkButton').onclick = () => {
+    count++;
+    $('#sparkCount').textContent = count;
+    if (count >= 10) { state.taps++; state.bond++; persist(); update(); result('Ты собрал все искры! 🌟', 'Комната Luna стала чуточку ярче.'); }
+  };
+};
+// Restore the selected room after reopening the app.
+function restoreRoom() {
+  const scene = $('.room-scene');
+  if (!scene) return;
+  scene.style.background = state.room === 'night' ? 'linear-gradient(#28334f 0 55%,#665d80 55%)' : state.room === 'sunny' ? 'linear-gradient(#f2c77f 0 55%,#d7b68d 55%)' : 'linear-gradient(#9ebbd0 0 55%,#c4b1a0 55%)';
+  $$('[data-room]').forEach(b => b.classList.toggle('selected', b.dataset.room === (state.room || 'calm')));
+}
+restoreRoom();
+</script>
+</body>
+</html>
